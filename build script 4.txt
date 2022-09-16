@@ -1,0 +1,44 @@
+#Author           :Caleb Celius
+#Title            :Build script 4
+#Script name      :phone.py
+#Description      :this script when executed checks the phone number and validates it against different parameters.
+#Date             :09/15/2022
+
+
+import requests
+import csv
+import json
+
+url = "https://phonenumbervalidatefree.p.rapidapi.com/ts_PhoneNumberValidateTest.jsp"
+
+querystring = {"number":"+59894887799","country":"UY"}
+
+headers = {
+	"X-RapidAPI-Key": "ad3caa2411msh74238f1dc6f08a5p1c553ajsnc6131211fd61",
+	"X-RapidAPI-Host": "phonenumbervalidatefree.p.rapidapi.com"
+}
+
+response = requests.request("GET", url, headers=headers, params=querystring)
+
+csvheader = ['phoneNumberEntered','defaultCountryEntered','languageEntered','countryCode','nationalNumber','extension','countryCodeSource','italianLeadingZero','rawInput','isPossibleNumber','isValidNumber','isValidNumberForRegion','phoneNumberRegion','numberType','E164Format','originalFormat','nationalFormat','internationalFormat','outOfCountryFormatFromUS','outOfCountryFormatFromCH','location','timeZone_s','carrier',]
+
+lines = response.json()
+
+
+
+
+reader = csv.reader(lines)
+
+with open('numbers1-info.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+
+    # write the header
+    #writer.writerow(csvheader)
+    writer.writerow(lines)
+    
+    writer.writerow(response)
+    
+    
+
+
+print(response.json)
